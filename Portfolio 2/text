@@ -1,0 +1,5 @@
+<<<<<<<<<<<<<<  ✨ Codeium Command ⭐ >>>>>>>>>>>>>>>>
+function redirectToPage() {
+    window.location.href = 'http://www.example.com';
+}
+<<<<<<<  e6dbcf77-9568-4ded-9b41-7ab2547b7c14  >>>>>>>
