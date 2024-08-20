@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+    <h1>To Do List</h1>
+    <div class="todo">
+        <div id="taskScheduler">
+            <div class="task-item">
+                <input type="text" id="input-box" placeholder="Enter a task...">
+                <button id="addTaskButton" onclick="addTask(document.getElementById('input-box').value)">Add Task</button>
+            </div>
+            <div id="taskList"></div>
+        </div>
+    </div>
+    <script src="todo.js"></script>
+</body>
+</html>

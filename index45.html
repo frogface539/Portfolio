@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+  }
+  .calculator {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+  }
+  .calculator-screen {
+    width: 100%;
+    border: none;
+    background-color: #f1f1f1;
+    height: 40px;
+    margin-bottom: 10px;
+    text-align: right;
+    font-size: 20px;
+    padding: 5px;
+  }
+  .calculator-keys {
+    width: 100%;
+  }
+  .calculator-keys button {
+    width: calc(25% - 2px);
+    height: 50px;
+    margin: 1px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .operator {
+    background-color: #d4d4d2;
+  }
+  .equal-sign {
+    background-color: #65ccf3;
+    height: 106px;
+    grid-row: span 2;
+  }
+  .calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+</style>
+</head>
+<body>
+<div class="calculator">
+  <input type="text" class="calculator-screen" value="" disabled>
+  
+  <div class="calculator-keys">
+    
+    <button type="button" class="operator" value="+">+</button>
+    <button type="button" class="operator" value="-">-</button>
+    <button type="button" class="operator" value="*">&times;</button>
+    <button type="button" class="operator" value="/">&divide;</button>
+
+    <button type="button" value="7">7</button>
+    <button type="button" value="8">8</button>
+    <button type="button" value="9">9</button>
+    <button type="button" class="operator" value="%">%</button>
+
+    <button type="button" value="4">4</button>
+    <button type="button" value="5">5</button>
+    <button type="button" value="6">6</button>
+    <button type="button" class="operator" value="**">^</button>
+
+    <button type="button" value="1">1</button>
+    <button type="button" value="2">2</button>
+    <button type="button" value="3">3</button>
+    
+    <button type="button" value="0">0</button>
+    <button type="button" class="decimal" value=".">.</button>
+    <button type="button" class="all-clear" value="all-clear">AC</button>
+    <button type="button" class="equal-sign operator" value="=">=</button>
+  </div>
+</div>
+
+<script>
+  const calculator = {
+    displayValue: '0',
+    firstOperand: null,
+    waitingForSecondOperand: false,
+    operator: null,
+  };
+  
+  function inputDigit(digit) {
+    const { displayValue, waitingForSecondOperand } = calculator;
+    
+    if (waitingForSecondOperand === true) {
+      calculator.displayValue = digit;
+      calculator.waitingForSecondOperand = false;
+    } else {
+      calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
+    }
+  }
+  
+  function inputDecimal(dot) {
+    if (calculator.waitingForSecondOperand === true) {
+      calculator.displayValue = '0.'
+      calculator.waitingForSecondOperand = false;
+      return
+    }
+    
+    if (!calculator.displayValue.includes(dot)) {
+      calculator.displayValue += dot;
+    }
+  }
+  
+  function handleOperator(nextOperator) {
+    const { firstOperand, displayValue, operator } = calculator
+    const inputValue = parseFloat(displayValue);
+    
+    if (operator && calculator.waitingForSecondOperand)  {
+      calculator.operator = nextOperator;
+      return;
+    }
+    
+    if (firstOperand == null) {
+      calculator.firstOperand = inputValue;
+    } else if (operator) {
+      const currentValue = firstOperand || 0;
+      const result = performCalculation[operator](currentValue, inputValue);
+      
+      calculator.displayValue = String(result);
+      calculator.firstOperand = result;
+    }
+    
+    calculator.waitingForSecondOperand = true;
+    calculator.operator
